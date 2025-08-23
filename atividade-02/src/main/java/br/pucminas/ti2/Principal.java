@@ -11,7 +11,7 @@ public class Principal {
 		System.out.println("2 - Inserir um novo veículo");
 		System.out.println("3 - Excluir um veiculo");
 		System.out.println("4 - Atualizar veiculo");
-		System.out.println("5 - Buscar veiculo por ID -- Falta implementar");
+		System.out.println("5 - Buscar veiculo por ID");
 		System.out.println("0 - Sair");
 		
 		System.out.println("==================================");
@@ -55,6 +55,16 @@ public class Principal {
 		veiculo.setCor(sc.nextLine());
 		
 		dao.atualizarVeiculo(veiculo);
+	}
+	
+	public static void buscarVeiculo(DAO dao, int id_veiculo) {
+		Concessionaria veiculo = dao.getVeiculoId(id_veiculo);
+		
+		if(veiculo != null) {
+			System.out.println(veiculo.toString());
+		}else {
+			System.out.println("Veículo não encontrado.");
+		}
 	}
 	
 	public static void alterarDadoVeiculo(DAO dao, Concessionaria veiculo) {
@@ -128,6 +138,7 @@ public class Principal {
 		
 		dao.conectar();
 		int idAtualizar = 0;
+		int idVeiculoProcurado = 0;
 		int op = 0;
 		
 		do {
@@ -179,6 +190,13 @@ public class Principal {
 					System.out.println("Veiculo nao encontrado.");
 				}
 				
+				break;
+			case 5:
+				System.out.println("Digite o ID do veiculo que deseja buscar");
+				idVeiculoProcurado = sc.nextInt();
+				sc.nextLine();
+				
+				buscarVeiculo(dao, idVeiculoProcurado);
 				break;
 			case 0:
 				System.out.println("Bye bye..");
