@@ -1,1 +1,24 @@
+# Arquivos de Log e Temporários
+*.log
+*.tmp
+
+# Arquivos compilados do Java
+*.class
+
+# Pasta de compilação de projetos Eclipse padrão
 /bin/
+
+# Pasta de compilação de projetos Maven
+/target/
+
+# Arquivos de configuração específicos do Eclipse
+# Estes arquivos não devem ser compartilhados
+.classpath
+.project
+.settings/
+
+# Arquivos de sistema operacional que aparecem às vezes
+# macOS
+.DS_Store
+# Windows
+Thumbs.db
