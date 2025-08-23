@@ -101,7 +101,8 @@ public class Principal {
 	
 	public static void deletarVeiculo(DAO dao, int codigoVeiculoDeletado) {
 		//boolean encontrado = procurarVeiculo(dao, codigoVeiculoDeletado);
-		if(dao.excluirVeiculo(codigoVeiculoDeletado) == true) {
+		boolean status = dao.excluirVeiculo(codigoVeiculoDeletado);
+		if(status != false) {
 			System.out.println("Veículo deletado com sucesso!");
 		}else {
 			System.out.println("Código de veículo não encontrado na nossa base de dados.");
@@ -172,7 +173,11 @@ public class Principal {
 				sc.nextLine();
 				
 				Concessionaria veiculo = dao.getVeiculoId(idAtualizar);
-				alterarDadoVeiculo(dao, veiculo);
+				if(veiculo !=  null) {
+					alterarDadoVeiculo(dao, veiculo);
+				}else {
+					System.out.println("Veiculo nao encontrado.");
+				}
 				
 				break;
 			case 0:

@@ -1,0 +1,4 @@
+# Preencha com seus dados e renomeie este arquivo para config.properties
+db.url=jdbc:postgresql://localhost:PORTA/NOME_DO_BANCO
+db.user=SEU_USUARIO
+db.password=SUA_SENHA

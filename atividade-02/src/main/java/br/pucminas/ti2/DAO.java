@@ -1,6 +1,9 @@
 package br.pucminas.ti2;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.*;
+import java.util.Properties;
 
 public class DAO {
 	private Connection conexao;
@@ -10,13 +13,19 @@ public class DAO {
 	}
 	
 	public boolean conectar() {
+		Properties props = new Properties();
+		try (FileInputStream fis = new FileInputStream("config.properties")){
+			props.load(fis);
+		} catch (IOException e) {
+			System.err.println("Erro: Não foi possível ler o arquivo de configuração 'config.properties");
+			e.printStackTrace();
+			return false;
+		}
+		
 		String driverName = "org.postgresql.Driver";    
-		String serverName = "localhost";
-		String mydatabase = "Concessionaria";
-		int porta = 2006;
-		String url = "jdbc:postgresql://" + serverName + ":" + porta +"/" + mydatabase;
-		String username = "TI2CC";
-		String password = "TI@cc";
+		String url = props.getProperty("db.url");
+		String username = props.getProperty("db.user");
+		String password = props.getProperty("db.password");
 		boolean status = false;
 		
 		try {
@@ -86,9 +95,15 @@ public class DAO {
 		try {  
 			Statement st = conexao.createStatement();
 			String sql = "DELETE FROM veiculo WHERE id_veiculo = " + id_veiculo;
-			st.executeUpdate(sql); 
+			
+			//Capturo a quantidade de linhas afetadas pra evitar o falso delete, retorna 0 ou 1
+			int linhasAfetadas = st.executeUpdate(sql); 
+			
+			if(linhasAfetadas > 0) {
+				status = true;				
+			}
+			
 			st.close();
-			status = true;
 		} catch (SQLException u) {  
 			throw new RuntimeException(u);
 		}

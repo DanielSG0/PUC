@@ -22,3 +22,5 @@
 .DS_Store
 # Windows
 Thumbs.db
+
+config.properties
