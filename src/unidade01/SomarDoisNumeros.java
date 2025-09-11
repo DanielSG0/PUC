@@ -4,7 +4,6 @@ import java.util.*;
 //Daniel Santos Garcia - EX01 - 1598779
 
 class SomarDoisNumeros {
-<<<<<<< HEAD
 	public static Scanner sc = new Scanner(System.in);
 	
 	
@@ -17,9 +16,5 @@ class SomarDoisNumeros {
 		int soma = num1+num2;
 		
 		System.out.println("O valor da soma é: " + soma);
-=======
-	public static void main(String args[]) {
-		
->>>>>>> branch 'feature/subtracao' of https://github.com/DanielSG0/PUC.git
 	}
 }
