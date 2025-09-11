@@ -13,9 +13,9 @@
 
 # Arquivos de configuração específicos do Eclipse
 # Estes arquivos não devem ser compartilhados
-.classpath
-.project
-.settings/
+# .classpath
+# .project
+# .settings/
 
 # Arquivos de sistema operacional que aparecem às vezes
 # macOS
