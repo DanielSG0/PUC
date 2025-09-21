@@ -1,1 +1,11 @@
-/bin/
+/target/
+
+.classpath
+.project
+.settings/
+
+
+*.log
+
+
+config.properties

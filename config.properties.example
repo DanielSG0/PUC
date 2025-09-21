@@ -1,0 +1,5 @@
+# Arquivo de exemplo. Renomeie para config.properties e preencha com seus dados.
+db.driver=org.postgresql.Driver
+db.url=jdbc:postgresql://localhost:5432/concessionaria
+db.user=seu_usuario_aqui
+db.password=sua_senha_aqui
