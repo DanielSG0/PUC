@@ -20,6 +20,9 @@ const path = require('path')
 //Pelo que entendi, o servidor é criado aqui.
 const app = express()
 
+const apiRouter = require('./api/routes/api_routes')
+app.use ('/api', apiRouter)
+
 //Essas linhas com app.use() são chamadas de Middlewares. Pense neles como FILTROS: toda requisição que chegar no servidor passa por aqui antes de chegar nas suas rotas.
 
 //O que faz: Libera o acesso. Sem isso, se você tentar chamar esse back-end a partir de um front-end (React, Vue, etc.), o navegador vai bloquear a conexão por segurança.
@@ -27,11 +30,10 @@ app.use(cors())
 
 //FUNDAMENTAL!!!
 //Isso ensina o servidor a ler JSON. Quando alguém envia dados no corpo da requisição (req.body) em formato JSON, essa linha traduz isso para um objeto JavaScript que você consegue ler no código.
-app.use(express.json())
+app.use(express.json()) /* '*' */
 
 //Permite que o servidor entenda dados enviados através de formulários HTML padrão (aqueles que não enviam JSON, mas sim application/x-www-form-urlencoded). O extended: true permite objetos aninhados complexos.
 app.use(express.urlencoded({ extended: true }))
-
 /**
  * 
 O que faz: Cria uma rota "falsa" para servir arquivos reais (imagens, CSS, HTML).

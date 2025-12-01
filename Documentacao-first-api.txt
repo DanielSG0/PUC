@@ -1,0 +1,19 @@
+JWT token = é um padrão aberto que transmite informações de forma segura entre duas partes, como um cliente e um servidor, usando um objeto JSON. Ele é composto por três partes separadas por pontos: um cabeçalho, um payload (com as informações) e uma assinatura. A assinatura digital garante que as informações no token não foram alteradas e que é confiável. 
+
+comando de inicialização de um projeto node: npm init -y
+
+comando para instalar os pacotes e dependências que usaremos no projeto:
+npm install express dotenv knex pg bcryptjs jsonwebtoken cors --save
+
+urlencoded = método de codificação de URL
+
+CORS = CORS, sigla para Compartilhamento de Recursos entre Origens, é um mecanismo de segurança de navegador que permite que um site carregado em um domínio acesse recursos (como APIs) de outro domínio. Ele funciona através de cabeçalhos HTTP especiais, dando aos servidores a permissão de dizer ao navegador quais origens têm acesso aos seus recursos, contornando a política de segurança de mesma origem, que, por padrão, restringe essas requisições. 
+
+NodeMon = reinicia o servidor toda vez que identifica uma mudança na estrutura do projeto ou na versão de um arquivo
+comando de instalação NodeMon = npm install -g nodemon
+
+tem que lembrar de mudar o main no package.json pra server.js ou o nome do arquivo onde ta o servidor
+
+dentro de scripts acrescentar "start" : "node server.js" pro railway subir a aplicação
+
+nodemon parece que é apenas pro desenvolvimento no meu pc
