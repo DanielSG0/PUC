@@ -20,7 +20,7 @@ const path = require('path')
 //Pelo que entendi, o servidor é criado aqui.
 const app = express()
 
-const apiRouter = require('./api/routes/api_routes')
+const apiRouter = require('./api/routes/apiRouter')
 app.use ('/api', apiRouter)
 
 //Essas linhas com app.use() são chamadas de Middlewares. Pense neles como FILTROS: toda requisição que chegar no servidor passa por aqui antes de chegar nas suas rotas.
