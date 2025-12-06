@@ -39,28 +39,14 @@ module.exports = {
    * 
    */
   production: {
-    client: 'pg',
-    connection: {
-      connectionString: process.env.DATABASE_URL,
-      ssl: { rejectUnauthorized: false } // 👈 ESSA É A LINHA MÁGICA
-    },
-    pool: {
-      min: 2,
-      max: 10
-    },
-    migrations: {
-      tableName: 'knex_migrations'
-    }
+    client: "pg",
+    connection: process.env.DATABASE_URL,
+
+    //Onde ficam os arquivos que criam as tabelas. Historico de evolução do banco
+    migrations: { directory: "./database/migrations" },
+
+    //Onde ficam os arquivos para popular o banco com dados de teste
+    seeds: { directory: "./database/seeds" },
+    ssl: { rejectUnauthorized: false },
   }
-  // production: {
-  //   client: "pg",
-  //   connection: process.env.DATABASE_URL,
-
-  //   //Onde ficam os arquivos que criam as tabelas. Historico de evolução do banco
-  //   migrations: { directory: "./database/migrations" },
-
-  //   //Onde ficam os arquivos para popular o banco com dados de teste
-  //   seeds: { directory: "./database/seeds" },
-  //   ssl: { rejectUnauthorized: false },
-  // },
 };
