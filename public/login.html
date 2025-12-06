@@ -36,8 +36,15 @@
             })
             .then(resposta => resposta.json())
             .then(json =>{
-                alert("Usuário logado com sucesso!");
-                console.log(json);
+
+                if(json.token){
+                    localStorage.token('token', json.token);
+                    alert("Usuário logado com sucesso!");
+                    window.location.href = 'index.html';
+                }else{
+                    alert("Erro: " + (json.message) || "Login e/ou senha incorretos");
+                    console.error(json);
+                }
             })
             .catch(erro => {
                 alert("Erro ao logar o usuario.");
