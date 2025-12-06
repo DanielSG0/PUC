@@ -11,6 +11,14 @@ botao.addEventListener('click', function() {
     const val = document.getElementById('valor').value;
     const mar = document.getElementById('marca').value;
 
+    const token = localStorage.getItem('token');
+
+    if(!token){
+        alert("Você precisa estar logado para cadastrar");
+        window.location.href = 'login.html';
+        return;
+    }
+
     //Monta o objeto pra mandar
     const dadosParaEnviar = {
         descricao: desc,
@@ -27,18 +35,26 @@ botao.addEventListener('click', function() {
         method: 'POST',
 
         //é pra avisar que no cabeçalho contem dados pra consumir
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Authorization' : 'Bearer ' + token},
 
         //converte numa string pra enviar
         body: JSON.stringify(dadosParaEnviar)
     })
-    .then(resposta => resposta.json())
+    .then(resposta => {
+        if (!resposta.ok) throw new Error ("Erro na requisição: " + resposta.status);
+        return resposta.json();
+    })
     .then(json => {
         alert('Deu bom! Produto cadastrado com ID: ' + json.id);
+
+        document.getElementById('descricao').value = '';
+        document.getElementById('valor').value = '';
+        document.getElementById('marca').value = '';
+
         console.log(json);
     })
     .catch(erro => {
-        alert('Deu ruim!');
+        alert('Deu ruim! Provalmente você não é admin ou seu token expirou.');
         console.error(erro);
     });
 });
@@ -50,7 +66,7 @@ btnCarregar.addEventListener('click', () =>{
 
     if(!token){
         alert("Você não esta logado.");
-        window.location.href('login.html');
+        window.location.href = 'login.html';
         return;
     }
 
