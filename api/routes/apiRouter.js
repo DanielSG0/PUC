@@ -252,8 +252,9 @@ apiRouter.post(endpoint + 'seguranca/login', (req, res) => {
         res.status(200).json({message: 'Login ou senha incorretos'})
     })
     .catch(err =>{
+        console.error("ERRO DETALHADO NO LOGIN:", err); // Adicionei isso pra aparecer no log
         res.status(500).json({
-            message: 'Erro ao verificar login - ' + err.message
+            message: 'Erro ao verificar login - ' + (err.message || err)
         })
     })
 })

@@ -51,5 +51,15 @@ app.use('/app', express.static(path.join(__dirname, '/public')))
 //Define a porta. Ele tenta pegar a porta definida no arquivo .env (útil quando você coloca o site no ar, pois o servidor na nuvem escolhe a porta). Se não houver nenhuma definida, usa a 3000 como padrão.
 let port = process.env.PORT || 3000
 
+
+app.use((err, req, res, next) => {
+    console.error("ERRO DETECTADO NO SERVIDOR:");
+    console.error(err.stack); // Isso imprime o erro detalhado no log
+    res.status(500).json({ message: "Ocorreu um erro interno no servidor." });
+});
+
 //"Liga" o servidor. Ele fica ouvindo (escutando) requisições na porta definida. O terminal vai ficar "preso" rodando esse processo.
 app.listen(port)
+app.listen(port, () => {
+    console.log(`Servidor rodando na porta ${port}`); // Bom para saber quando ligou
+})
