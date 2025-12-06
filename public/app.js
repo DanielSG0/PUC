@@ -74,7 +74,10 @@ btnCarregar.addEventListener('click', () =>{
         method: 'GET',
         headers: {'Authorization': 'Bearer ' + token}
     })
-    .then(resp => resp.json())
+    .then(resp => {
+        if(!resp.ok) throw new Error ("Erro ao buscar dados: " + resp.status);
+        return resp.json();
+    })
     .then(produtos => {
         lista.innerHTML = '';
 
