@@ -92,8 +92,8 @@ apiRouter.post(endpoint + 'produtos', (req, res) =>{
 
     //Esse returning retorna um array, mesmo que com uma posicao, ou seja
     //coloco [0] pra retornar apenas o objeto solto que fica melhor pro front end
-    knex('produto').insert(novo_produto).returning('*').json(dados[0])
-    .then(dados => res.status(201).json(dados))
+    knex('produto').insert(novo_produto).returning('*')
+    .then(dados => res.status(201).json(dados[0]))
     .catch(err =>{
         res.status(500).json({
             message: "Erro ao inserir o objeto: " + err.message
