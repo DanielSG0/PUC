@@ -1,5 +1,7 @@
 //Pega o botão do HTML
 const botao = document.getElementById('btnEnviar');
+const btnCarregar = document.getElementById('btnCarregar');
+const lista = document.getElementById('listaProdutos');
 
 //Fica vigiando quando alguem clicar nele
 botao.addEventListener('click', function() {
@@ -39,4 +41,32 @@ botao.addEventListener('click', function() {
         alert('Deu ruim!');
         console.error(erro);
     });
+});
+
+
+btnCarregar.addEventListener('click', () =>{
+
+    const token = localStorage.getItem('token');
+
+    if(!token){
+        alert("Você não esta logado.");
+        window.location.href('login.html');
+        return;
+    }
+
+    fetch('/api/produtos', {
+        method: 'GET',
+        headers: {'Authorization': 'Bearer ' + token}
+    })
+    .then(resp => resp.json())
+    .then(produtos => {
+        lista.innerHTML = '';
+
+        produtos.forEach(prod => {
+            const item = document.createElement('li');
+            item.innerText = `${prod.descricao} - R$ ${prod.valor}`;
+            lista.appendChild(item);
+        });
+    })
+    .catch(err => console.error(err))
 });
