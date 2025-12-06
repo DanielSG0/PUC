@@ -26,6 +26,9 @@ const app = express()
 //Isso ensina o servidor a ler JSON. Quando alguém envia dados no corpo da requisição (req.body) em formato JSON, essa linha traduz isso para um objeto JavaScript que você consegue ler no código.
 app.use(express.json()) /* '*' */
 
+//Permite acessar os arquivos da pasta 'public'
+app.use(express.static('public'))
+
 //O que faz: Libera o acesso. Sem isso, se você tentar chamar esse back-end a partir de um front-end (React, Vue, etc.), o navegador vai bloquear a conexão por segurança.
 app.use(cors())
 
