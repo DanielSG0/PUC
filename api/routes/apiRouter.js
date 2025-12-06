@@ -1,5 +1,7 @@
 //Importamos a biblioteca do express
 const express = require ('express')
+const bcrypt = require ('bcryptjs')
+const jwt = require ('jsonwebtoken')
 
 /**
  * 
@@ -148,6 +150,60 @@ apiRouter.delete(endpoint + 'produtos/:id', (req, res) => {
         })
     })
 
+})
+
+apiRouter.post (endpoint + 'seguranca/register', (req, res) =>{
+    knex ('usuario')
+        .insert({
+            nome: req.body.nome,
+            login: req.body.login,
+            senha: bcrypt.hashSync(req.body.senha, 8),
+            email: req.body.email
+
+            //Esse ['id'] diz pra salvar e retornar apenas o id Gerado
+        }, ['id'])
+        .then((result) =>{
+            let usuario = result[0] //Pega o primeiro item que é o objeto {id: 1}
+            res.status(200).json({"id": usuario.id})
+            return
+        })
+        .catch(err => {
+            res.status(500).json({
+                message: "Erro ao registrar o usuario - " + err.message
+            })
+        })
+})
+
+apiRouter.post(endpoint + 'seguranca/login', (req, res) => {
+    //Procura no bd se tem alguem com aquele login inserido pelo usuario
+    knex.select('*').from('usuario').where({login: req.body.login})
+    .then(usuarios => {
+        if(usuarios.length){
+            let usuario = usuarios[0]
+            //Pega a senha que o usuario digitou, criptografa e compara ela na hora com a do banco. Se baterem retorna true
+            let checkSenha = bcrypt.compareSync (req.body.senha, usuario.senha)
+            if (checkSenha){
+                var tokenJWT = jwt.sign({ id: usuario.id},
+                    process.env.SECRET_KEY, {
+                    expiresIn: 3600
+                })
+                res.status(200).json({
+                    id: usuario.id,
+                    login: usuario.login,
+                    nome: usuario.nome,
+                    roles: usuario.roles,
+                    token: tokenJWT
+                })
+                return
+            }
+        }
+        res.status(200).json({message: 'Login ou senha incorretos'})
+    })
+    .catch(err =>{
+        res.status(500).json({
+            message: 'Erro ao verificar login - ' + err.message
+        })
+    })
 })
 
 /**
