@@ -42,11 +42,7 @@ module.exports = {
     client: "pg",
     connection: process.env.DATABASE_URL,
 
-    //Onde ficam os arquivos que criam as tabelas. Historico de evolução do banco
     migrations: { directory: "./database/migrations" },
-
-    //Onde ficam os arquivos para popular o banco com dados de teste
     seeds: { directory: "./database/seeds" },
-    ssl: { rejectUnauthorized: false },
   }
 };
