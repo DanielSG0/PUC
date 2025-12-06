@@ -31,6 +31,58 @@ const knex = require('knex')({
     }
 });
 
+let checkToken = (req, res, next) => {
+    let authToken = req.headers["authorization"]
+    
+    // 1. Verifica se o token veio
+    if (!authToken) {
+        res.status(401).json({ message: 'Token de acesso requerida' })
+        return
+    }
+    else {
+        // 2. Limpa o token (tira a palavra "Bearer")
+        let token = authToken.split(' ')[1]
+        req.token = token
+    }
+
+    // 3. Verifica se o token é válido
+    jwt.verify(req.token, process.env.SECRET_KEY, (err, decodeToken) => {
+        if (err) {
+            res.status(401).json({ message: 'Acesso negado'})
+            return
+        }
+        // 4. Se deu tudo certo, salva o ID do usuário e deixa passar
+        req.usuarioId = decodeToken.id
+        next()
+    })
+}
+
+let isAdmin = (req, res, next) => {
+    knex
+        .select ('*').from ('usuario').where({ id: req.usuarioId })
+        .then ((usuarios) => {
+            if (usuarios.length) {
+                let usuario = usuarios[0]
+                let roles = usuario.roles.split(';')
+                let adminRole = roles.find(i => i === 'ADMIN')
+                if (adminRole === 'ADMIN') {
+                    next()
+                    return
+                }
+                else {
+                    res.status(403).json({ message: 'Role de ADMIN requerida' })
+                    return
+                }
+            } else {
+                res.status(404).json({message: "Usuário não encontrado"})
+            }
+        })
+        .catch (err => {
+        res.status(500).json({
+        message: 'Erro ao verificar roles de usuário - ' + err.message })
+        })
+}
+
 /**
 .get: Define que essa rota só aceita requisições do tipo GET (o tipo padrão quando você digita um link no navegador).
 
@@ -76,7 +128,7 @@ apiRouter.get(endpoint + 'produtos/:id', (req, res) =>{
     })
 })
 
-apiRouter.post(endpoint + 'produtos', (req, res) =>{
+apiRouter.post(endpoint + 'produtos', checkToken, isAdmin, (req, res) =>{
     let novo_produto = {
         descricao: req.body.descricao,
         valor: req.body.valor,
@@ -103,7 +155,7 @@ apiRouter.post(endpoint + 'produtos', (req, res) =>{
     })
 })
 
-apiRouter.put(endpoint + 'produtos/:id', (req, res) => {
+apiRouter.put(endpoint + 'produtos/:id', checkToken, isAdmin, (req, res) => {
 
     let produto_atualizado = {
         descricao: req.body.descricao,
@@ -130,7 +182,7 @@ apiRouter.put(endpoint + 'produtos/:id', (req, res) => {
     })
 })
 
-apiRouter.delete(endpoint + 'produtos/:id', (req, res) => {
+apiRouter.delete(endpoint + 'produtos/:id', checkToken, isAdmin, (req, res) => {
 
     knex('produto').where("id", req.params.id).delete()
     .then(resp => {

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    
+    <div>
+        <label for="input-login">Login:</label>
+        <input type="text" name="input-login" id="input-login"><br>
+        <label for="input-senha">Senha:</label>
+        <input type="password" name="input-senha" id="input-senha"><br>
+        <input type="submit" id="btnLogar">
+        <a href="cadastro.html">Não tenho conta</a>
+    </div>
+
+    <script>
+
+        const btnLogar = document.getElementById('btnLogar');
+
+        btnLogar.addEventListener('click', () =>{
+            const loginUser = document.getElementById('input-login').value;
+            const senhaUser = document.getElementById('input-senha').value;
+
+            novoUsuario = {
+                login: loginUser,
+                senha: senhaUser
+            }
+
+            fetch('/seguranca/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(novoUsuario)
+            })
+            .then(resposta => resposta.json())
+            .then(json =>{
+                alert("Usuário logado com sucesso!");
+                console.log(json);
+            })
+            .catch(erro => {
+                alert("Erro ao logar o usuario.");
+                console.error(erro);
+            });
+        });
+    </script>
+
+</body>
+</html>

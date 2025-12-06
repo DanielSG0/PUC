@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+</head>
+<body>
+    
+    <div>
+
+        <label for="input-nome">Nome:</label>
+        <input type="text" name="input-nome" id="input-nome"><br>
+        <label for="input-email">Email:</label>
+        <input type="email" name="input-email" id="input-email"><br>
+        <label for="input-login">Login:</label>
+        <input type="text" name="input-login" id="input-login"><br>
+        <label for="input-senha">Senha:</label>
+        <input type="password" name="input-senha" id="input-senha"><br>
+        <input type="submit" id="btnCadastrar">
+
+    </div>
+
+    <script>
+
+        const btnCadastrar = document.getElementById('btnCadastrar');
+
+        btnCadastrar.addEventListener('click', () =>{
+
+            const nomeUser = document.getElementById('input-nome').value;
+            const emailUser = document.getElementById('input-email').value;
+            const loginUser = document.getElementById('input-login').value;
+            const senhaUser = document.getElementById('input-senha').value;
+
+            novoUsuario = {
+                nome: nomeUser,
+                email: emailUser,
+                login: loginUser,
+                senha: senhaUser
+            }
+
+            fetch('/seguranca/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(novoUsuario)
+            })
+            .then(resposta => resposta.json())
+            .then(json =>{
+                alert("Usuário cadastrado com sucesso!");
+                console.log(json);
+            })
+            .catch(erro => {
+                alert("Erro ao cadastrar usuario.");
+                console.error(erro);
+            });
+        });
+    </script>
+
+</body>
+</html>
