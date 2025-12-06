@@ -29,7 +29,7 @@
                 senha: senhaUser
             }
 
-            fetch('/seguranca/login', {
+            fetch('/api/seguranca/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(novoUsuario)

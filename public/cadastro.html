@@ -39,7 +39,7 @@
                 senha: senhaUser
             }
 
-            fetch('/seguranca/register', {
+            fetch('/api/seguranca/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(novoUsuario)
